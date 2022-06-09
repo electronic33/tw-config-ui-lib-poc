@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const Button = () => {
-  return <div>asd</div>;
+  return <div className="bg-red-300">asd</div>;
 };
