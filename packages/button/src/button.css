@@ -6,6 +6,7 @@
   .btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     transition-property: background-color, color, border-color;
     transition-duration: 400ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -47,6 +48,28 @@
     box-shadow: theme('components.button.sizes.lg.shadow');
   }
 
+  .btn-icon-left-md {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    flex-shrink: 0;
+  }
+
+  .btn-icon-left-md-offset-to-center {
+    margin-left: -20px;
+  }
+
+  .btn-icon-right-md {
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    flex-shrink: 0;
+  }
+
+  .btn-icon-right-md-offset-to-center {
+    margin-right: -20px;
+  }
+
   .btn-size-xl {
     padding-left: theme('components.button.sizes.xl.px');
     padding-right: theme('components.button.sizes.xl.px');
@@ -65,12 +88,21 @@
       color: theme('components.button.colors.primary.filled.hover.textColor');
     }
 
-    @apply focus:ring-2;
+    @apply focus-visible:ring-2;
 
-    &:focus {
+    &:focus-visible {
       --tw-ring-opacity: 1;    
       --tw-ring-color: theme('components.button.colors.primary.filled.backgroundColor' / 75%);
       --tw-ring-offset-width: 2px;
+    }
+
+    &:active {
+      background-color: theme('components.button.colors.primary.filled.pressed.backgroundColor');
+    }
+
+    &:disabled {
+      background-color: theme('components.button.colors.primary.filled.disabled.backgroundColor');
+      cursor: not-allowed;
     }
   }
 

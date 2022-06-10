@@ -48,6 +48,14 @@ module.exports = {
               backgroundColor: theme('colors.blue.600'),
               textColor: theme('colors.white'),
               hover: {
+                backgroundColor: theme('colors.blue.500'),
+                textColor: theme('colors.white'),
+              },
+              pressed: {
+                backgroundColor: theme('colors.blue.800'),
+                textColor: theme('colors.white'),
+              },
+              disabled: {
                 backgroundColor: theme('colors.blue.400'),
                 textColor: theme('colors.white'),
               },

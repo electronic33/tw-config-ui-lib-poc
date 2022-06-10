@@ -3,11 +3,23 @@ import './button.css';
 import clsx from 'clsx';
 
 export type ButtonProps = {
-  isDisabled?: boolean;
   className?: string;
+  buttonHtmlElementProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 
-export const Button = ({ children, className }: ButtonProps) => {
-  return <button className={clsx('btn', className)}>{children}</button>;
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, buttonHtmlElementProps, disabled, className }, ref) => {
+    return (
+      <button
+        {...buttonHtmlElementProps}
+        className={clsx('btn', className)}
+        disabled={disabled}
+        ref={ref}
+      >
+        {children}
+      </button>
+    );
+  },
+);
