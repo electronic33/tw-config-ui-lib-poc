@@ -1,5 +1,13 @@
 import React from 'react';
+import './button.css';
+import clsx from 'clsx';
 
-export const Button = () => {
-  return <div className="bg-red-300">asd</div>;
+export type ButtonProps = {
+  isDisabled?: boolean;
+  className?: string;
+  children: React.ReactNode;
+};
+
+export const Button = ({ children, className }: ButtonProps) => {
+  return <button className={clsx('btn', className)}>{children}</button>;
 };

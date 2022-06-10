@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    display: flex;
+    align-items: center;
+    transition-property: background-color, color, border-color;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-size-xs {
+    padding-left: theme('components.button.sizes.xs.px');
+    padding-right: theme('components.button.sizes.xs.px');
+    height: theme('components.button.sizes.xs.height');
+    font-size: theme('components.button.sizes.xs.fontSize');
+    border-radius: theme('components.button.sizes.xs.borderRadius');
+    box-shadow: theme('components.button.sizes.xs.shadow');
+  }
+
+  .btn-size-sm {
+    padding-left: theme('components.button.sizes.sm.px');
+    padding-right: theme('components.button.sizes.sm.px');
+    height: theme('components.button.sizes.sm.height');
+    font-size: theme('components.button.sizes.sm.fontSize');
+    border-radius: theme('components.button.sizes.sm.borderRadius');
+    box-shadow: theme('components.button.sizes.sm.shadow');
+  }
+  
+  .btn-size-md {
+    padding-left: theme('components.button.sizes.md.px');
+    padding-right: theme('components.button.sizes.md.px');
+    height: theme('components.button.sizes.md.height');
+    font-size: theme('components.button.sizes.md.fontSize');
+    border-radius: theme('components.button.sizes.md.borderRadius');
+    box-shadow: theme('components.button.sizes.md.shadow');
+  }
+  
+  .btn-size-lg {
+    padding-left: theme('components.button.sizes.lg.px');
+    padding-right: theme('components.button.sizes.lg.px');
+    height: theme('components.button.sizes.lg.height');
+    font-size: theme('components.button.sizes.lg.fontSize');
+    border-radius: theme('components.button.sizes.lg.borderRadius');
+    box-shadow: theme('components.button.sizes.lg.shadow');
+  }
+
+  .btn-size-xl {
+    padding-left: theme('components.button.sizes.xl.px');
+    padding-right: theme('components.button.sizes.xl.px');
+    height: theme('components.button.sizes.xl.height');
+    font-size: theme('components.button.sizes.xl.fontSize');
+    border-radius: theme('components.button.sizes.xl.borderRadius');
+    box-shadow: theme('components.button.sizes.xl.shadow');
+  }
+
+  .btn-color-primary-filled {
+    background-color: theme('components.button.colors.primary.filled.backgroundColor');
+    color: theme('components.button.colors.primary.filled.textColor');
+
+    &:hover {
+      background-color: theme('components.button.colors.primary.filled.hover.backgroundColor');
+      color: theme('components.button.colors.primary.filled.hover.textColor');
+    }
+
+    @apply focus:ring-2;
+
+    &:focus {
+      --tw-ring-opacity: 1;    
+      --tw-ring-color: theme('components.button.colors.primary.filled.backgroundColor' / 75%);
+      --tw-ring-offset-width: 2px;
+    }
+  }
+
+  .btn-color-primary-outlined {
+    background-color: theme('components.button.colors.primary.outlined.backgroundColor');
+    color: theme('components.button.colors.primary.outlined.textColor');
+
+    &:hover {
+      background-color: theme('components.button.colors.primary.outlined.hover.backgroundColor');
+      color: theme('components.button.colors.primary.outlined.hover.textColor');
+    }
+  }
+
+  .btn-color-netural-filled {
+    background-color: theme('components.button.colors.neutral.filled.backgroundColor');
+    color: theme('components.button.colors.neutral.filled.textColor');
+
+    &:hover {
+      background-color: theme('components.button.colors.neutral.filled.hover.backgroundColor');
+      color: theme('components.button.colors.neutral.filled.hover.textColor');
+    }
+  }
+
+  .btn-color-neutral-outlined {
+    background-color: theme('components.button.colors.neutral.outlined.backgroundColor');
+    color: theme('components.button.colors.neutral.outlined.textColor');
+
+    &:hover {
+      background-color: theme('components.button.colors.neutral.filled.hover.backgroundColor');
+      color: theme('components.button.colors.neutral.filled.hover.textColor');
+    }
+  }
+}
