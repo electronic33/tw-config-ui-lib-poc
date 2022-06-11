@@ -1,0 +1,37 @@
+{
+  "name": "@ags-ui-library-poc/text-input",
+  "author": "Matyas Furtos",
+  "license": "MIT",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electronic33/tw-config-ui-lib-poc.git"
+  },
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "default": "./dist/index.es.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "lint:src": "eslint src --ext .ts,.tsx --config ../../.eslintrc"
+  },
+  "dependencies": {
+    "clsx": "~1.1.1"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  }
+}

@@ -7,14 +7,16 @@ export type ButtonProps = {
   buttonHtmlElementProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   children: React.ReactNode;
   disabled?: boolean;
+  style?: React.CSSProperties;
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, buttonHtmlElementProps, disabled, className }, ref) => {
+  ({ children, buttonHtmlElementProps, disabled, className, style }, ref) => {
     return (
       <button
         {...buttonHtmlElementProps}
-        className={clsx('btn', className)}
+        className={clsx('button', className)}
+        style={style}
         disabled={disabled}
         ref={ref}
       >
