@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RadixSelect } from '../src';
+import { HeadlessUiSelect, RadixSelect } from '../src';
 
 export default {
   title: 'Select',
@@ -13,6 +13,13 @@ export const Default = (): React.ReactNode => {
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
         <RadixSelect value={value1} onChange={setValue2} placeholder="Select one of the options" />
+      </div>
+      <div className="flex flex-col space-y-4 items-start">
+        <HeadlessUiSelect
+          value={value1}
+          onChange={setValue2}
+          placeholder="Select one of the options"
+        />
       </div>
     </div>
   );

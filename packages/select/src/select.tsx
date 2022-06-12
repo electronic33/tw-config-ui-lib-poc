@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import './select.css';
 import clsx from 'clsx';
-// import { Listbox } from '@headlessui/react';
+import { Listbox } from '@headlessui/react';
 import * as Select from '@radix-ui/react-select';
 import { RenderPropsCommonTypes } from '@ags-ui-library-poc/utils';
 
@@ -14,9 +14,9 @@ export type RadixSelectProps<T> = {
   value: string;
   onChange: (newValue: string) => void;
   placeholder?: string;
-  renderTrigger?: ({ value }: RenderTriggerProps & RenderPropsCommonTypes) => React.ReactNode;
-  renderIcon?: (props: RenderPropsCommonTypes) => React.ReactNode;
-  renderValue?: (props: RenderPropsCommonTypes) => React.ReactNode;
+  renderTrigger?: ({ value }: RenderTriggerProps & RenderPropsCommonTypes) => React.ReactElement;
+  renderIcon?: (props: RenderPropsCommonTypes) => React.ReactElement;
+  renderValue?: (props: RenderPropsCommonTypes) => React.ReactElement;
 };
 
 export const RadixSelect = <T,>({
@@ -106,29 +106,38 @@ export const RadixSelect = <T,>({
   );
 };
 
-// export type HeadlessUiSelectProps<T, U> = {
-//   className?: string;
-//   selectHtmlProps?: React.InputHTMLAttributes<HTMLSelectElement>;
-//   disabled?: boolean;
-//   value: T;
-//   onChange: (value: T, )
-//   options:
-// };
+export type HeadlessUiSelectProps<T, U> = {
+  className?: string;
+  selectHtmlProps?: React.InputHTMLAttributes<HTMLSelectElement>;
+  disabled?: boolean;
+  value: T;
+  onChange: (value: T) => void;
+};
 
-// export const HeadlessUiSelect = React.forwardRef<HTMLSelectElement, HeadlessUiSelectProps>(
-//   ({ selectHtmlProps, disabled, className }, ref) => {
-//     return (
-//       <Listbox value={value} onChange={setSelectedPerson}>
-//         <Listbox.Label>Assignee:</Listbox.Label>
-//         <Listbox.Button>{selectedPerson.name}</Listbox.Button>
-//         <Listbox.Options>
-//           {people.map((person) => (
-//             <Listbox.Option key={person.id} value={person}>
-//               {person.name}
-//             </Listbox.Option>
-//           ))}
-//         </Listbox.Options>
-//       </Listbox>
-//     );
-//   },
-// );
+const TestComp = (props) => {
+  console.log('🚀 ~ file: select.tsx ~ line 118 ~ TestComp ~ props', props);
+  return <button {...props} />;
+};
+
+export const HeadlessUiSelect = React.forwardRef<HTMLSelectElement, HeadlessUiSelectProps>(
+  ({ selectHtmlProps, disabled, className, value, onChange }, ref) => {
+    return (
+      <Listbox value={value} onChange={onChange}>
+        <Listbox.Label>Assignee:</Listbox.Label>
+        <Listbox.Button className="test" as={TestComp}>
+          Selected value
+        </Listbox.Button>
+        <Listbox.Options>
+          {[
+            { id: '1', name: 'Name 1' },
+            { id: '2', name: 'Name 2' },
+          ].map((person) => (
+            <Listbox.Option key={person.id} value={person}>
+              {person.name}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </Listbox>
+    );
+  },
+);
