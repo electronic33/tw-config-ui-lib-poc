@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { ButtonPropsWeControl, HeadlessUiSelect, RadixSelect } from '../src';
+import { HeadlessUiSelect, RadixSelect, TriggerComponentType } from '../src';
 
 export default {
   title: 'Select',
   component: RadixSelect,
 };
 
-const TestComp = ({
-  anyProps,
-  importantProps,
-  children,
-}: {
-  importantProps: Record<ButtonPropsWeControl, any>;
-  anyProps: any;
-  children?: React.ReactNode;
+type CustomTriggerComponentExtraProps = {
+  isEditing: boolean;
+};
+
+const CustomTriggerComponent: TriggerComponentType<CustomTriggerComponentExtraProps> = ({
+  extraProps,
+  requiredProps,
 }) => {
-  console.log('🚀 ~ file: select.tsx ~ line 118 ~ TestComp ~ props', importantProps, anyProps);
-  return <button {...importantProps}>Plus child {children}</button>;
+  return (
+    <button {...requiredProps}>
+      Plus child {requiredProps.children} {extraProps.isEditing ? 'Editing' : 'Not Editing'}
+    </button>
+  );
 };
 
 export const Default = (): React.ReactNode => {
@@ -34,7 +36,8 @@ export const Default = (): React.ReactNode => {
           placeholder="Select one of the options"
           getTriggerValue={(value) => value?.name || ''}
           options={[]}
-          TriggerComponent={TestComp}
+          TriggerComponent={CustomTriggerComponent}
+          triggerComponentExtraProps={{ isEditing: true }}
         />
       </div>
     </div>

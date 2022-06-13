@@ -4,16 +4,17 @@ import { Listbox } from '@headlessui/react';
 import * as Select from '@radix-ui/react-select';
 import { RenderPropsCommonTypes } from '@ags-ui-library-poc/utils';
 
-export type ButtonPropsWeControl = {
+export type HeadlessUiTriggerButtonRequiredProps = {
   id: string;
-  type: string;
-  'aria-haspopup': string;
+  type: 'submit' | 'reset' | 'button';
+  'aria-haspopup': boolean;
   'aria-controls': string;
-  'aria-expanded': string;
+  'aria-expanded': boolean;
   'aria-labelledby': string;
-  disabled: string;
-  onKeyDown: string;
-  onClick: string;
+  disabled: boolean;
+  onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  onKeyUp: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children: React.ReactNode;
 };
 
@@ -139,22 +140,31 @@ export const RadixSelect = ({
   );
 };
 
-export type HeadlessUiSelectProps<T> = {
+export type TriggerComponentType<T extends Record<string, any>> = React.FunctionComponent<{
+  requiredProps: HeadlessUiTriggerButtonRequiredProps;
+  extraProps?: T;
+}>;
+
+export type HeadlessUiSelectProps<
+  ValueType,
+  TriggerComponentExtraPropsType extends Record<string, any>,
+> = {
   disabled?: boolean;
-  value: T;
-  getTriggerValue: (value: T) => string;
+  value: ValueType;
+  getTriggerValue: (value: ValueType) => string;
   withNoTriggerIcon?: boolean;
-  onChange: (value: T) => void;
-  options: T[];
+  onChange: (value: ValueType) => void;
+  options: ValueType[];
   label?: string;
   labelClassName?: string;
   LabelComponent?: React.FunctionComponent;
   placeholder?: string;
   placeholderClassName?: string;
   TriggerComponent?: React.FunctionComponent<{
-    importantProps: ButtonPropsWeControl;
-    anyProps: any;
+    requiredProps: HeadlessUiTriggerButtonRequiredProps;
+    extraProps?: TriggerComponentExtraPropsType;
   }>;
+  triggerComponentExtraProps?: TriggerComponentExtraPropsType;
   triggerClassName?: string;
   TriggerValueComponent?: React.FunctionComponent<{
     className: string;
@@ -165,7 +175,7 @@ export type HeadlessUiSelectProps<T> = {
   triggerIconClassName?: string;
 };
 
-export const HeadlessUiSelect = <T,>({
+export const HeadlessUiSelect = <ValueType, TriggerComponentExtraPropsType>({
   // Root level related props
   disabled,
   value,
@@ -177,6 +187,7 @@ export const HeadlessUiSelect = <T,>({
   // Trigger related props
   TriggerComponent,
   triggerClassName,
+  triggerComponentExtraProps,
   // Trigger value related props
   TriggerValueComponent,
   triggerValueClassName,
@@ -186,7 +197,7 @@ export const HeadlessUiSelect = <T,>({
   TriggerIconComponent,
   triggerIconClassName,
   withNoTriggerIcon,
-}: HeadlessUiSelectProps<T>) => {
+}: HeadlessUiSelectProps<ValueType, TriggerComponentExtraPropsType>) => {
   const isPlaceholderApplicable = useMemo(() => {
     if (!placeholder) {
       return false;
@@ -255,20 +266,15 @@ export const HeadlessUiSelect = <T,>({
 
   const triggerDomNode = useMemo(() => {
     if (TriggerComponent) {
-      const WrappedTriggerComponent = (props: ButtonPropsWeControl) => (
-        <TriggerComponent
-          importantProps={props}
-          anyProps={{
-            key1: 'value1',
-          }}
-        />
-      );
+      const WrappedTriggerComponent = (props: HeadlessUiTriggerButtonRequiredProps) => {
+        console.log({ props });
+
+        return <TriggerComponent requiredProps={props} extraProps={triggerComponentExtraProps} />;
+      };
 
       return (
         <Listbox.Button
-          // @ts-ignore
-          className={('select-trigger', triggerClassName)}
-          anyProps={{ any: 1 }}
+          className={clsx('select-trigger', triggerClassName)}
           type="button"
           as={WrappedTriggerComponent}
         >
@@ -282,7 +288,7 @@ export const HeadlessUiSelect = <T,>({
       <Listbox.Button
         // @ts-ignore
         className={('select-trigger', triggerClassName)}
-        anyProps={{ any: 1 }}
+        extraProps={{ any: 1 }}
         type="button"
         as={TriggerComponent}
       >
@@ -290,7 +296,13 @@ export const HeadlessUiSelect = <T,>({
         {triggerIconDomNode}
       </Listbox.Button>
     );
-  }, [TriggerComponent, triggerIconDomNode, triggerValueDomNode, triggerClassName]);
+  }, [
+    TriggerComponent,
+    triggerIconDomNode,
+    triggerValueDomNode,
+    triggerClassName,
+    triggerComponentExtraProps,
+  ]);
 
   return (
     <Listbox value={value} onChange={onChange} disabled={disabled}>
