@@ -7,3 +7,4 @@ files
 *.tsbuildinfo
 *.env
 .env
+.turbo

@@ -26,9 +26,10 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "lint:src": "eslint src --ext .ts,.tsx --config ../../.eslintrc"
+    "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc"
   },
   "dependencies": {
+    "@ags-ui-library-poc/utils": "1.0.0",
     "@headlessui/react": "~1.6.4",
     "@radix-ui/react-select": "~0.1.1",
     "@radix-ui/react-slot": "^0.1.2",

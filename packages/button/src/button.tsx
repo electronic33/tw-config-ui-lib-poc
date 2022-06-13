@@ -1,5 +1,4 @@
 import React from 'react';
-import './button.css';
 import clsx from 'clsx';
 
 export type ButtonProps = {

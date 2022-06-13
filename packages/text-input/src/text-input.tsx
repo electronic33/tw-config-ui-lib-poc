@@ -1,5 +1,4 @@
 import React from 'react';
-import './text-input.css';
 import clsx from 'clsx';
 
 export type TextInputProps = {
