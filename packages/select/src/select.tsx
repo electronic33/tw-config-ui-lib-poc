@@ -2,58 +2,10 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { Listbox } from '@headlessui/react';
 import * as Select from '@radix-ui/react-select';
+import { TriggerComponent as DefaultTriggerComponent } from './default-components/trigger';
+import { ValueComponent as DefaultValueComponent } from './default-components/value';
+import { IconComponent as DefaultIconComponent } from './default-components/icon';
 import { RenderPropsCommonTypes } from '@ags-ui-library-poc/utils';
-
-export type HeadlessUiTriggerButtonRequiredProps = {
-  id: string;
-  type: 'submit' | 'reset' | 'button';
-  'aria-haspopup': boolean;
-  'aria-controls': string;
-  'aria-expanded': boolean;
-  'aria-labelledby': string;
-  disabled: boolean;
-  onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-  onKeyUp: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  children: React.ReactNode;
-};
-
-export type IconCommonProps = {
-  className?: string;
-  svgHtmlProps?: React.SVGAttributes<SVGElement>;
-  as?: React.FunctionComponent<Omit<IconCommonProps, 'as'>>;
-};
-
-export const SelectTriggerIcon = ({
-  className,
-  svgHtmlProps,
-  as: AsComponent,
-}: IconCommonProps) => {
-  if (AsComponent) {
-    return <AsComponent className={className} svgHtmlProps={svgHtmlProps} />;
-  }
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-      {...svgHtmlProps}
-      className={clsx('h-5 w-5 text-gray-400 ml-3', className)}
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-};
-
-export type RenderTriggerProps = {
-  value: string;
-  placeholder?: string;
-};
 
 export type RadixSelectProps = {
   value: string;
@@ -62,6 +14,11 @@ export type RadixSelectProps = {
   renderTrigger?: ({ value }: RenderPropsCommonTypes & RenderTriggerProps) => React.ReactElement;
   renderIcon?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
   renderValue?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
+  components?: {
+    Icon?: React.FunctionComponent;
+    Value?: React.FunctionComponent;
+    Trigger?: React.FunctionComponent;
+  };
 };
 
 export const RadixSelect = ({
@@ -71,50 +28,92 @@ export const RadixSelect = ({
   renderTrigger,
   renderIcon,
   renderValue,
+  components,
 }: RadixSelectProps) => {
-  const valueDomNode = useMemo(() => {
+  const TriggerComponent = useMemo(
+    () => components?.Trigger || DefaultTriggerComponent,
+    [components?.Trigger],
+  );
+  const IconComponent = useMemo(() => components?.Icon || DefaultIconComponent, [components?.Icon]);
+  const ValueComponent = useMemo(
+    () => components?.Value || DefaultValueComponent,
+    [components?.Value],
+  );
+
+  const isPlaceholderApplicable = useMemo(() => {
+    if (!placeholder) {
+      return false;
+    }
+
+    // if (!getTriggerValue(value)) {
+    //   return false;
+    // }
+
+    if (!value) {
+      return false;
+    }
+
+    return true;
+  }, [value, placeholder]);
+
+  const ValueDomNode = useMemo(() => {
     if (renderValue) {
       return (
         <Select.Value className="select-value" asChild>
-          {renderValue({ value, className: '', style: {} })}
+          {/* @ts-ignore */}
+          {renderValue({ className: '', style: {} })}
         </Select.Value>
       );
     }
 
-    return <Select.Value className="select-value" />;
-  }, [value, renderValue]);
+    return (
+      <Select.Value className="select-value" asChild>
+        <ValueComponent value={value} />
+      </Select.Value>
+    );
+  }, [renderValue, ValueComponent, value]);
 
-  const toggleIconDomNode = useMemo(() => {
+  const IconDomNode = useMemo(() => {
     if (renderIcon) {
       return (
         <Select.Icon className="select-trigger-icon" asChild>
-          {renderIcon({ className: '', style: {}, value })}
+          {/* @ts-ignore */}
+          {renderIcon({})}
         </Select.Icon>
       );
     }
 
     return (
       <Select.Icon className="select-trigger-icon" asChild>
-        <SelectTriggerIcon />
+        <IconComponent />
       </Select.Icon>
     );
-  }, [renderIcon, value]);
+  }, [renderIcon, IconComponent]);
 
   const triggerDomNode = useMemo(() => {
     if (renderTrigger) {
-      return renderTrigger({ value, placeholder, style: {}, className: '' });
+      // @ts-ignore
+      return renderTrigger({});
     }
 
     return (
-      <Select.Trigger className="select-trigger">
-        {valueDomNode}
-        {toggleIconDomNode}
+      <Select.Trigger className="select-trigger" asChild>
+        <TriggerComponent>
+          {ValueDomNode}
+          {IconDomNode}
+        </TriggerComponent>
       </Select.Trigger>
     );
-  }, [renderTrigger, toggleIconDomNode, value, valueDomNode, placeholder]);
+  }, [renderTrigger, TriggerComponent, IconDomNode, ValueDomNode]);
 
   return (
-    <Select.Root value={value} onValueChange={onChange}>
+    <Select.Root
+      value={value}
+      onValueChange={(newValue) => {
+        // const foundValue = options.find((option) => option.value === value);
+        onChange(newValue);
+      }}
+    >
       {triggerDomNode}
       <Select.Content className="select-content">
         <Select.ScrollUpButton />
@@ -140,9 +139,33 @@ export const RadixSelect = ({
   );
 };
 
-export type TriggerComponentType<T extends Record<string, any>> = React.FunctionComponent<{
+//////////////////// HEADLESS UI
+
+export type HeadlessUiTriggerButtonRequiredProps = {
+  id: string;
+  type: 'submit' | 'reset' | 'button';
+  'aria-haspopup': boolean;
+  'aria-controls': string;
+  'aria-expanded': boolean;
+  'aria-labelledby': string;
+  disabled: boolean;
+  onKeyDown: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  onKeyUp: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className: string;
+  children: React.ReactNode;
+};
+
+export type TriggerComponentType<
+  ExtraPropsType extends Record<string, any>,
+  ValueType,
+> = React.FunctionComponent<{
   requiredProps: HeadlessUiTriggerButtonRequiredProps;
-  extraProps?: T;
+  internalProps: {
+    value: ValueType;
+    isOpen: boolean;
+  };
+  extraProps?: ExtraPropsType;
 }>;
 
 export type HeadlessUiSelectProps<
@@ -160,10 +183,7 @@ export type HeadlessUiSelectProps<
   LabelComponent?: React.FunctionComponent;
   placeholder?: string;
   placeholderClassName?: string;
-  TriggerComponent?: React.FunctionComponent<{
-    requiredProps: HeadlessUiTriggerButtonRequiredProps;
-    extraProps?: TriggerComponentExtraPropsType;
-  }>;
+  TriggerComponent?: TriggerComponentType<TriggerComponentExtraPropsType, ValueType>;
   triggerComponentExtraProps?: TriggerComponentExtraPropsType;
   triggerClassName?: string;
   TriggerValueComponent?: React.FunctionComponent<{
@@ -266,18 +286,27 @@ export const HeadlessUiSelect = <ValueType, TriggerComponentExtraPropsType>({
 
   const triggerDomNode = useMemo(() => {
     if (TriggerComponent) {
-      const WrappedTriggerComponent = (props: HeadlessUiTriggerButtonRequiredProps) => {
-        console.log({ props });
+      const WrappedTriggerComponent = (requiredProps: HeadlessUiTriggerButtonRequiredProps) => {
+        // console.log({ requiredProps });
 
-        return <TriggerComponent requiredProps={props} extraProps={triggerComponentExtraProps} />;
+        return (
+          <TriggerComponent
+            requiredProps={{
+              ...requiredProps,
+              className: clsx('select-trigger', triggerClassName),
+            }}
+            extraProps={triggerComponentExtraProps}
+            internalProps={{
+              isOpen: true,
+              value,
+            }}
+          />
+        );
       };
 
       return (
-        <Listbox.Button
-          className={clsx('select-trigger', triggerClassName)}
-          type="button"
-          as={WrappedTriggerComponent}
-        >
+        // @ts-ignore: declare or patch some types to fix this
+        <Listbox.Button as={WrappedTriggerComponent}>
           {triggerValueDomNode}
           {triggerIconDomNode}
         </Listbox.Button>
@@ -302,6 +331,7 @@ export const HeadlessUiSelect = <ValueType, TriggerComponentExtraPropsType>({
     triggerValueDomNode,
     triggerClassName,
     triggerComponentExtraProps,
+    value,
   ]);
 
   return (
