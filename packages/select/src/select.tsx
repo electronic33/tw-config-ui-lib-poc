@@ -7,21 +7,84 @@ import { ValueComponent as DefaultValueComponent } from './default-components/va
 import { IconComponent as DefaultIconComponent } from './default-components/icon';
 import { RenderPropsCommonTypes } from '@ags-ui-library-poc/utils';
 
-export type RadixSelectProps = {
-  value: string;
-  onChange: (newValue: string) => void | React.ElementType;
-  placeholder?: string;
-  renderTrigger?: ({ value }: RenderPropsCommonTypes & RenderTriggerProps) => React.ReactElement;
+type ValueTypeUnion = string;
+
+type OptionItemType<ValueType extends ValueTypeUnion> = {
+  type: 'item';
+  value: ValueType;
+  [key: string]: any;
+};
+
+type OptionSeparatorType = {
+  type: 'separator';
+  [key: string]: any;
+};
+
+type OptionGroupType<ValueType extends ValueTypeUnion> = {
+  type: 'group';
+  label: string;
+  groupItems: (OptionItemType<ValueType> | OptionSeparatorType)[];
+  [key: string]: any;
+};
+
+type Option<ValueType extends ValueTypeUnion> =
+  | OptionSeparatorType
+  | OptionItemType<ValueType>
+  | OptionGroupType<ValueType>;
+
+export type RadixSelectProps<ValueType extends ValueTypeUnion> = {
+  value: ValueType;
+  onChange: (
+    newValue: ValueType,
+    optionItem: OptionItemType<ValueType> | null,
+  ) => void | React.ElementType;
+  placeholder?: React.ReactNode;
+  options: Option<ValueType>[];
+  /* Be default it is selectedOption.value */
+  getDisplayValueFromSelectedOption?: (
+    selectedOption: OptionItemType<ValueType>,
+  ) => string | number | null | React.ReactElement;
+  renderTrigger?: (props: RenderPropsCommonTypes) => React.ReactElement;
   renderIcon?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
   renderValue?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
   components?: {
-    Icon?: React.FunctionComponent;
-    Value?: React.FunctionComponent;
     Trigger?: React.FunctionComponent;
+    Value?: React.FunctionComponent;
+    Icon?: React.FunctionComponent;
+    ItemText?: React.FunctionComponent;
+    ItemIndicator?: React.FunctionComponent;
+    Item?: React.FunctionComponent;
+    Label?: React.FunctionComponent;
+    Content?: React.FunctionComponent;
+    ViewPort?: React.FunctionComponent;
+    Group?: React.FunctionComponent;
+    Separator?: React.FunctionComponent;
+    ScrollDownButton?: React.FunctionComponent;
+    ScrollUpButton?: React.FunctionComponent;
+  };
+  // componentClassNames?: {
+  //   trigger: string | (() => string);
+  //   value: string | (() => string);
+  //   icon: string | (() => string);
+  // };
+  componentExtraProps?: {
+    trigger?: Record<string, any>;
+    value?: Record<string, any>;
+    icon?: Record<string, any>;
+    itemText?: Record<string, any>;
+    itemIndicator?: Record<string, any>;
+    item?: Record<string, any>;
+    label?: Record<string, any>;
+    content?: Record<string, any>;
+    viewPort?: Record<string, any>;
+    group?: Record<string, any>;
+    separator?: Record<string, any>;
+    scrollDownButton?: Record<string, any>;
+    scrollUpButton?: Record<string, any>;
   };
 };
 
-export const RadixSelect = ({
+export const RadixSelect = <ValueType extends ValueTypeUnion>({
   value,
   onChange,
   placeholder,
@@ -29,7 +92,9 @@ export const RadixSelect = ({
   renderIcon,
   renderValue,
   components,
-}: RadixSelectProps) => {
+  componentExtraProps,
+  options,
+}: RadixSelectProps<ValueType>) => {
   const TriggerComponent = useMemo(
     () => components?.Trigger || DefaultTriggerComponent,
     [components?.Trigger],
@@ -38,6 +103,43 @@ export const RadixSelect = ({
   const ValueComponent = useMemo(
     () => components?.Value || DefaultValueComponent,
     [components?.Value],
+  );
+  const ItemTextComponent = useMemo(
+    () => components?.ItemText || DefaultItemTextComponent,
+    [components?.ItemText],
+  );
+  const ItemIndicatorComponent = useMemo(
+    () => components?.ItemIndicator || DefaultItemIndicatorComponent,
+    [components?.ItemIndicator],
+  );
+  const ItemComponent = useMemo(() => components?.Item || DefaultItemComponent, [components?.Item]);
+  const ContentComponent = useMemo(
+    () => components?.Content || DefaultContentComponent,
+    [components?.Content],
+  );
+  const ViewPortComponent = useMemo(
+    () => components?.ViewPort || DefaultViewPortComponent,
+    [components?.ViewPort],
+  );
+  const GroupComponent = useMemo(
+    () => components?.Group || DefaultGroupComponent,
+    [components?.Group],
+  );
+  const LabelComponent = useMemo(
+    () => components?.Label || DefaultLabelComponent,
+    [components?.Label],
+  );
+  const SeparatorComponent = useMemo(
+    () => components?.Separator || DefaultSeparatorComponent,
+    [components?.Separator],
+  );
+  const ScrollUpButtonComponent = useMemo(
+    () => components?.ScrollUpButton || DefaultScrollUpButtonComponent,
+    [components?.ScrollUpButton],
+  );
+  const ScrollDownButtonComponent = useMemo(
+    () => components?.ScrollDownButton || DefaultScrollDownButtonComponent,
+    [components?.ScrollDownButton],
   );
 
   const isPlaceholderApplicable = useMemo(() => {
@@ -67,11 +169,11 @@ export const RadixSelect = ({
     }
 
     return (
-      <Select.Value className="select-value" asChild>
-        <ValueComponent value={value} />
+      <Select.Value asChild>
+        <ValueComponent className="select-value" value={value} {...componentExtraProps?.value} />
       </Select.Value>
     );
-  }, [renderValue, ValueComponent, value]);
+  }, [renderValue, ValueComponent, value, componentExtraProps?.value]);
 
   const IconDomNode = useMemo(() => {
     if (renderIcon) {
@@ -84,37 +186,72 @@ export const RadixSelect = ({
     }
 
     return (
-      <Select.Icon className="select-trigger-icon" asChild>
-        <IconComponent />
+      <Select.Icon asChild>
+        <IconComponent className="select-trigger-icon" {...componentExtraProps?.icon} />
       </Select.Icon>
     );
-  }, [renderIcon, IconComponent]);
+  }, [renderIcon, IconComponent, componentExtraProps?.icon]);
 
-  const triggerDomNode = useMemo(() => {
+  const TriggerDomNode = useMemo(() => {
     if (renderTrigger) {
       // @ts-ignore
       return renderTrigger({});
     }
 
     return (
-      <Select.Trigger className="select-trigger" asChild>
-        <TriggerComponent>
+      <Select.Trigger asChild>
+        <TriggerComponent className="select-trigger" {...componentExtraProps?.trigger}>
           {ValueDomNode}
           {IconDomNode}
         </TriggerComponent>
       </Select.Trigger>
     );
-  }, [renderTrigger, TriggerComponent, IconDomNode, ValueDomNode]);
+  }, [renderTrigger, TriggerComponent, IconDomNode, ValueDomNode, componentExtraProps?.trigger]);
+
+  // const ItemTextDomNode = useMemo(() => {
+  //   return <Select.ItemText asChild></Select.ItemText>
+  // }, []);
+
+  const OptionsList = useMemo(() => {
+    return options.map((option) => {
+      if (option.type === 'separator') {
+        return <Select.Separator />;
+      }
+
+      if (option.type === 'item') {
+        return <Select.Item value={option.value} {...option} />;
+      }
+
+      return null;
+    });
+  }, [options]);
 
   return (
     <Select.Root
       value={value}
       onValueChange={(newValue) => {
-        // const foundValue = options.find((option) => option.value === value);
-        onChange(newValue);
+        const selectedOption =
+          options.reduce((option) => {
+            if (option.type === 'item') {
+              return option.value === newValue;
+            }
+
+            if (option.type === 'group') {
+              return option.groupItems.find || false;
+            }
+            // TODO: continue finishing this
+            return false;
+          }) || null;
+
+        onChange(newValue, option);
       }}
     >
-      {triggerDomNode}
+      {TriggerDomNode}
+      <Select.Content>
+        <Select.ScrollUpButton />
+        <Select.Viewport>{OptionsList}</Select.Viewport>
+        <Select.ScrollDownButton />
+      </Select.Content>
       <Select.Content className="select-content">
         <Select.ScrollUpButton />
         <Select.Viewport>

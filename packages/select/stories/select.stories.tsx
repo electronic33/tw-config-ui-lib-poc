@@ -51,6 +51,11 @@ export const Default = (): React.ReactNode => {
           value={value2}
           onChange={setValue2}
           placeholder="Select one of the options"
+          // componentExtraProps={{
+          //   icon: {
+          //     className: 'w-5 h-5 text-red-500',
+          //   },
+          // }}
           // renderIcon={(renderProps) => <RadixTestComponent {...renderProps} />}
           // components={{
           //   TriggerValue: RadixTestComponent,

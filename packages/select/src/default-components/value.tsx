@@ -5,6 +5,7 @@ export type ValueComponentRadixProps = Partial<{
   style: {
     pointerEvent: React.CSSProperties['pointerEvents'];
   };
+  className: string;
 }>;
 
 export type ValueComponentProps = ValueComponentRadixProps & {
