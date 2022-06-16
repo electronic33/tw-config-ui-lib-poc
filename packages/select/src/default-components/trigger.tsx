@@ -37,6 +37,5 @@ export const getTriggerRadixProps = (props: TriggerComponentProps) =>
   ]);
 
 export const TriggerComponent = (props: TriggerComponentProps) => {
-  console.log('🚀 ~ file: trigger-component.tsx ~ line 40 ~ TriggerComponent ~ props', props);
   return <button {...getTriggerRadixProps(props)}>{props.children}</button>;
 };

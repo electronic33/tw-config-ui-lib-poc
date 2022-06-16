@@ -1,17 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import { Listbox } from '@headlessui/react';
 import * as Select from '@radix-ui/react-select';
 import { TriggerComponent as DefaultTriggerComponent } from './default-components/trigger';
 import { ValueComponent as DefaultValueComponent } from './default-components/value';
 import { IconComponent as DefaultIconComponent } from './default-components/icon';
-import { RenderPropsCommonTypes } from '@ags-ui-library-poc/utils';
 
-type ValueTypeUnion = string;
-
-type OptionItemType<ValueType extends ValueTypeUnion> = {
+type OptionItemType = {
   type: 'item';
-  value: ValueType;
+  value: string;
   [key: string]: any;
 };
 
@@ -20,33 +17,24 @@ type OptionSeparatorType = {
   [key: string]: any;
 };
 
-type OptionGroupType<ValueType extends ValueTypeUnion> = {
+type OptionGroupType = {
   type: 'group';
   label: string;
-  groupItems: (OptionItemType<ValueType> | OptionSeparatorType)[];
+  groupItems: (OptionItemType | OptionSeparatorType)[];
   [key: string]: any;
 };
 
-type Option<ValueType extends ValueTypeUnion> =
-  | OptionSeparatorType
-  | OptionItemType<ValueType>
-  | OptionGroupType<ValueType>;
+type Option = OptionSeparatorType | OptionItemType | OptionGroupType;
 
-export type RadixSelectProps<ValueType extends ValueTypeUnion> = {
-  value: ValueType;
-  onChange: (
-    newValue: ValueType,
-    optionItem: OptionItemType<ValueType> | null,
-  ) => void | React.ElementType;
+export type RadixSelectProps = {
+  value: string;
+  onChange: (newValue: string, optionItem: OptionItemType | null) => void | React.ElementType;
   placeholder?: React.ReactNode;
-  options: Option<ValueType>[];
-  /* Be default it is selectedOption.value */
+  options: Option[];
+  /* By default it's selectedOption.value */
   getDisplayValueFromSelectedOption?: (
-    selectedOption: OptionItemType<ValueType>,
+    selectedOption: OptionItemType,
   ) => string | number | null | React.ReactElement;
-  renderTrigger?: (props: RenderPropsCommonTypes) => React.ReactElement;
-  renderIcon?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
-  renderValue?: (props: RenderPropsCommonTypes & { value: string }) => React.ReactElement;
   components?: {
     Trigger?: React.FunctionComponent;
     Value?: React.FunctionComponent;
@@ -62,11 +50,6 @@ export type RadixSelectProps<ValueType extends ValueTypeUnion> = {
     ScrollDownButton?: React.FunctionComponent;
     ScrollUpButton?: React.FunctionComponent;
   };
-  // componentClassNames?: {
-  //   trigger: string | (() => string);
-  //   value: string | (() => string);
-  //   icon: string | (() => string);
-  // };
   componentExtraProps?: {
     trigger?: Record<string, any>;
     value?: Record<string, any>;
@@ -84,17 +67,14 @@ export type RadixSelectProps<ValueType extends ValueTypeUnion> = {
   };
 };
 
-export const RadixSelect = <ValueType extends ValueTypeUnion>({
+export const RadixSelect = ({
   value,
   onChange,
   placeholder,
-  renderTrigger,
-  renderIcon,
-  renderValue,
   components,
   componentExtraProps,
   options,
-}: RadixSelectProps<ValueType>) => {
+}: RadixSelectProps) => {
   const TriggerComponent = useMemo(
     () => components?.Trigger || DefaultTriggerComponent,
     [components?.Trigger],
@@ -142,135 +122,138 @@ export const RadixSelect = <ValueType extends ValueTypeUnion>({
     [components?.ScrollDownButton],
   );
 
+  const getSelectedOptionForValue = useCallback(
+    (v: string) => {
+      for (let i = 0; i < options.length; i += 1) {
+        const iterationOption = options[i];
+
+        if (iterationOption.type === 'item' && iterationOption.value === v) {
+          return iterationOption;
+        }
+
+        if (iterationOption.type === 'group') {
+          for (let j = 0; j < iterationOption.groupItems.length; j += 1) {
+            const iterationOptionGroupItem = iterationOption.groupItems[j];
+
+            if (iterationOptionGroupItem.type === 'item' && iterationOptionGroupItem.value === v) {
+              return iterationOptionGroupItem;
+            }
+          }
+        }
+      }
+
+      return null;
+    },
+    [options],
+  );
+
+  const selectedOptionForValue = useMemo(
+    () => getSelectedOptionForValue(value),
+    [getSelectedOptionForValue, value],
+  );
+
   const isPlaceholderApplicable = useMemo(() => {
     if (!placeholder) {
       return false;
     }
 
-    // if (!getTriggerValue(value)) {
-    //   return false;
-    // }
-
-    if (!value) {
+    if (!getSelectedOptionForValue(value)) {
       return false;
     }
 
     return true;
-  }, [value, placeholder]);
-
-  const ValueDomNode = useMemo(() => {
-    if (renderValue) {
-      return (
-        <Select.Value className="select-value" asChild>
-          {/* @ts-ignore */}
-          {renderValue({ className: '', style: {} })}
-        </Select.Value>
-      );
-    }
-
-    return (
-      <Select.Value asChild>
-        <ValueComponent className="select-value" value={value} {...componentExtraProps?.value} />
-      </Select.Value>
-    );
-  }, [renderValue, ValueComponent, value, componentExtraProps?.value]);
-
-  const IconDomNode = useMemo(() => {
-    if (renderIcon) {
-      return (
-        <Select.Icon className="select-trigger-icon" asChild>
-          {/* @ts-ignore */}
-          {renderIcon({})}
-        </Select.Icon>
-      );
-    }
-
-    return (
-      <Select.Icon asChild>
-        <IconComponent className="select-trigger-icon" {...componentExtraProps?.icon} />
-      </Select.Icon>
-    );
-  }, [renderIcon, IconComponent, componentExtraProps?.icon]);
-
-  const TriggerDomNode = useMemo(() => {
-    if (renderTrigger) {
-      // @ts-ignore
-      return renderTrigger({});
-    }
-
-    return (
-      <Select.Trigger asChild>
-        <TriggerComponent className="select-trigger" {...componentExtraProps?.trigger}>
-          {ValueDomNode}
-          {IconDomNode}
-        </TriggerComponent>
-      </Select.Trigger>
-    );
-  }, [renderTrigger, TriggerComponent, IconDomNode, ValueDomNode, componentExtraProps?.trigger]);
-
-  // const ItemTextDomNode = useMemo(() => {
-  //   return <Select.ItemText asChild></Select.ItemText>
-  // }, []);
-
-  const OptionsList = useMemo(() => {
-    return options.map((option) => {
-      if (option.type === 'separator') {
-        return <Select.Separator />;
-      }
-
-      if (option.type === 'item') {
-        return <Select.Item value={option.value} {...option} />;
-      }
-
-      return null;
-    });
-  }, [options]);
+  }, [value, placeholder, getSelectedOptionForValue]);
 
   return (
     <Select.Root
       value={value}
       onValueChange={(newValue) => {
-        const selectedOption =
-          options.reduce((option) => {
-            if (option.type === 'item') {
-              return option.value === newValue;
-            }
-
-            if (option.type === 'group') {
-              return option.groupItems.find || false;
-            }
-            // TODO: continue finishing this
-            return false;
-          }) || null;
-
-        onChange(newValue, option);
+        onChange(newValue, getSelectedOptionForValue(newValue));
       }}
     >
-      {TriggerDomNode}
-      <Select.Content>
-        <Select.ScrollUpButton />
-        <Select.Viewport>{OptionsList}</Select.Viewport>
-        <Select.ScrollDownButton />
-      </Select.Content>
-      <Select.Content className="select-content">
-        <Select.ScrollUpButton />
-        <Select.Viewport>
-          <Select.Item value="1">
-            <Select.ItemText>Item 1</Select.ItemText>
-            <Select.ItemIndicator>...</Select.ItemIndicator>
-          </Select.Item>
+      <Select.Trigger asChild>
+        <TriggerComponent className="select-trigger" {...componentExtraProps?.trigger}>
+          <Select.Value asChild>
+            <ValueComponent
+              className="select-value"
+              value={value}
+              {...componentExtraProps?.value}
+            />
+          </Select.Value>
+          <Select.Icon asChild>
+            <IconComponent className="select-trigger-icon" {...componentExtraProps?.icon} />
+          </Select.Icon>
+        </TriggerComponent>
+      </Select.Trigger>
+      <Select.Content asChild>
+        <ContentComponent>
+          <Select.ScrollUpButton asChild>
+            <ScrollUpButtonComponent />
+          </Select.ScrollUpButton>
+          <Select.Viewport asChild>
+            <ViewPortComponent>
+              {options.map((option, index) => {
+                if (option.type === 'separator') {
+                  return (
+                    <Select.Separator key={index} asChild>
+                      <SeparatorComponent />
+                    </Select.Separator>
+                  );
+                }
 
-          <Select.Group>
-            <Select.Label>Group</Select.Label>
-            <Select.Item value="2">
-              <Select.ItemText>Item 2</Select.ItemText>
-              <Select.ItemIndicator>...</Select.ItemIndicator>
-            </Select.Item>
-          </Select.Group>
+                if (option.type === 'item') {
+                  return (
+                    <Select.Item key={index} value={option.value} asChild>
+                      <ItemComponent>
+                        <Select.ItemText asChild>
+                          <ItemTextComponent />
+                        </Select.ItemText>
+                        <Select.ItemIndicator asChild>
+                          <ItemIndicatorComponent />
+                        </Select.ItemIndicator>
+                      </ItemComponent>
+                    </Select.Item>
+                  );
+                }
 
-          <Select.Separator />
-        </Select.Viewport>
-        <Select.ScrollDownButton />
+                if (option.type === 'group') {
+                  return (
+                    <Select.Group asChild>
+                      <GroupComponent>
+                        {option.label && (
+                          <Select.Label asChild>
+                            <LabelComponent />
+                          </Select.Label>
+                        )}
+                        {option.groupItems.map((groupItem, groupIndex) => (
+                          <Select.Item
+                            key={`${index}-${groupIndex}`}
+                            value={groupItem.value}
+                            asChild
+                          >
+                            <ItemComponent>
+                              <Select.ItemText asChild>
+                                <ItemTextComponent />
+                              </Select.ItemText>
+                              <Select.ItemIndicator asChild>
+                                <ItemIndicatorComponent />
+                              </Select.ItemIndicator>
+                            </ItemComponent>
+                          </Select.Item>
+                        ))}
+                      </GroupComponent>
+                    </Select.Group>
+                  );
+                }
+
+                return null;
+              })}
+            </ViewPortComponent>
+          </Select.Viewport>
+          <Select.ScrollDownButton asChild>
+            <ScrollDownButtonComponent />
+          </Select.ScrollDownButton>
+        </ContentComponent>
       </Select.Content>
     </Select.Root>
   );

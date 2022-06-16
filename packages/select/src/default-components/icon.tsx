@@ -1,6 +1,5 @@
 import React from 'react';
 import { getPropsWithKeys } from '@ags-ui-library-poc/utils';
-import clsx from 'clsx';
 
 export type IconComponentRadixProps = Partial<{
   style: {
