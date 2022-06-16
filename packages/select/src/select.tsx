@@ -5,6 +5,16 @@ import * as Select from '@radix-ui/react-select';
 import { TriggerComponent as DefaultTriggerComponent } from './default-components/trigger';
 import { ValueComponent as DefaultValueComponent } from './default-components/value';
 import { IconComponent as DefaultIconComponent } from './default-components/icon';
+import { ContentComponent as DefaultContentComponent } from './default-components/content';
+import { ViewportComponent as DefaultViewportComponent } from './default-components/viewport';
+import { ScrollUpButtonComponent as DefaultScrollUpButtonComponent } from './default-components/scroll-up-button';
+import { ScrollDownButtonComponent as DefaultScrollDownButtonComponent } from './default-components/scroll-down-button';
+import { ItemComponent as DefaultItemComponent } from './default-components/item';
+import { ItemTextComponent as DefaultItemTextComponent } from './default-components/item-text';
+import { ItemIndicatorComponent as DefaultItemIndicatorComponent } from './default-components/item-indicator';
+import { GroupComponent as DefaultGroupComponent } from './default-components/group';
+import { LabelComponent as DefaultLabelComponent } from './default-components/label';
+import { SeparatorComponent as DefaultSeparatorComponent } from './default-components/separator';
 
 type OptionItemType = {
   type: 'item';
@@ -44,7 +54,7 @@ export type RadixSelectProps = {
     Item?: React.FunctionComponent;
     Label?: React.FunctionComponent;
     Content?: React.FunctionComponent;
-    ViewPort?: React.FunctionComponent;
+    Viewport?: React.FunctionComponent;
     Group?: React.FunctionComponent;
     Separator?: React.FunctionComponent;
     ScrollDownButton?: React.FunctionComponent;
@@ -59,7 +69,7 @@ export type RadixSelectProps = {
     item?: Record<string, any>;
     label?: Record<string, any>;
     content?: Record<string, any>;
-    viewPort?: Record<string, any>;
+    viewport?: Record<string, any>;
     group?: Record<string, any>;
     separator?: Record<string, any>;
     scrollDownButton?: Record<string, any>;
@@ -97,9 +107,9 @@ export const RadixSelect = ({
     () => components?.Content || DefaultContentComponent,
     [components?.Content],
   );
-  const ViewPortComponent = useMemo(
-    () => components?.ViewPort || DefaultViewPortComponent,
-    [components?.ViewPort],
+  const ViewportComponent = useMemo(
+    () => components?.Viewport || DefaultViewportComponent,
+    [components?.Viewport],
   );
   const GroupComponent = useMemo(
     () => components?.Group || DefaultGroupComponent,
@@ -185,18 +195,18 @@ export const RadixSelect = ({
           </Select.Icon>
         </TriggerComponent>
       </Select.Trigger>
-      <Select.Content asChild>
-        <ContentComponent>
+      {/* <Select.Content asChild>
+        <ContentComponent {...componentExtraProps?.content}>
           <Select.ScrollUpButton asChild>
-            <ScrollUpButtonComponent />
+            <ScrollUpButtonComponent {...componentExtraProps?.scrollUpButton} />
           </Select.ScrollUpButton>
           <Select.Viewport asChild>
-            <ViewPortComponent>
+            <ViewportComponent {...componentExtraProps?.viewport}>
               {options.map((option, index) => {
                 if (option.type === 'separator') {
                   return (
-                    <Select.Separator key={index} asChild>
-                      <SeparatorComponent />
+                    <Select.Separator key={index} asChild {...componentExtraProps?.separator}>
+                      <SeparatorComponent {...componentExtraProps?.separator} />
                     </Select.Separator>
                   );
                 }
@@ -204,12 +214,12 @@ export const RadixSelect = ({
                 if (option.type === 'item') {
                   return (
                     <Select.Item key={index} value={option.value} asChild>
-                      <ItemComponent>
+                      <ItemComponent {...componentExtraProps?.item}>
                         <Select.ItemText asChild>
-                          <ItemTextComponent />
+                          <ItemTextComponent {...componentExtraProps?.itemText} />
                         </Select.ItemText>
                         <Select.ItemIndicator asChild>
-                          <ItemIndicatorComponent />
+                          <ItemIndicatorComponent {...componentExtraProps?.itemIndicator} />
                         </Select.ItemIndicator>
                       </ItemComponent>
                     </Select.Item>
@@ -219,10 +229,10 @@ export const RadixSelect = ({
                 if (option.type === 'group') {
                   return (
                     <Select.Group asChild>
-                      <GroupComponent>
+                      <GroupComponent {...componentExtraProps?.group}>
                         {option.label && (
                           <Select.Label asChild>
-                            <LabelComponent />
+                            <LabelComponent {...componentExtraProps?.label} />
                           </Select.Label>
                         )}
                         {option.groupItems.map((groupItem, groupIndex) => (
@@ -231,12 +241,12 @@ export const RadixSelect = ({
                             value={groupItem.value}
                             asChild
                           >
-                            <ItemComponent>
+                            <ItemComponent {...componentExtraProps?.item}>
                               <Select.ItemText asChild>
-                                <ItemTextComponent />
+                                <ItemTextComponent {...componentExtraProps?.itemText} />
                               </Select.ItemText>
                               <Select.ItemIndicator asChild>
-                                <ItemIndicatorComponent />
+                                <ItemIndicatorComponent {...componentExtraProps?.itemIndicator} />
                               </Select.ItemIndicator>
                             </ItemComponent>
                           </Select.Item>
@@ -248,13 +258,13 @@ export const RadixSelect = ({
 
                 return null;
               })}
-            </ViewPortComponent>
+            </ViewportComponent>
           </Select.Viewport>
           <Select.ScrollDownButton asChild>
-            <ScrollDownButtonComponent />
+            <ScrollDownButtonComponent {...componentExtraProps?.scrollDownButton} />
           </Select.ScrollDownButton>
         </ContentComponent>
-      </Select.Content>
+      </Select.Content> */}
     </Select.Root>
   );
 };
@@ -335,7 +345,6 @@ export const HeadlessUiSelect = <ValueType, TriggerComponentExtraPropsType>({
   getTriggerValue,
   // Trigger icon related props
   TriggerIconComponent,
-  triggerIconClassName,
   withNoTriggerIcon,
 }: HeadlessUiSelectProps<ValueType, TriggerComponentExtraPropsType>) => {
   const isPlaceholderApplicable = useMemo(() => {
@@ -371,10 +380,12 @@ export const HeadlessUiSelect = <ValueType, TriggerComponentExtraPropsType>({
       return null;
     }
 
-    const FinalIcon = TriggerIconComponent || SelectTriggerIcon;
+    if (TriggerIconComponent) {
+      return <TriggerIconComponent />;
+    }
 
-    return <FinalIcon className={clsx('select-trigger-icon', triggerIconClassName)} />;
-  }, [withNoTriggerIcon, TriggerIconComponent, triggerIconClassName]);
+    return null;
+  }, [withNoTriggerIcon, TriggerIconComponent]);
 
   const triggerValueDomNode = useMemo(() => {
     if (TriggerValueComponent) {

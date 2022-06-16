@@ -1,5 +1,7 @@
+import * as Select from '@radix-ui/react-select';
 import React, { useState } from 'react';
 import { HeadlessUiSelect, RadixSelect, TriggerComponentType } from '../src';
+import { ContentComponent } from '../src/default-components/content';
 
 export default {
   title: 'Select',
@@ -43,6 +45,7 @@ const RadixTestComponent3 = (props3) => {
 export const Default = (): React.ReactNode => {
   const [value1, setValue1] = useState({ id: '1', name: 'name 1' });
   const [value2, setValue2] = useState('');
+  const [value3, setValue3] = useState('item-1');
 
   return (
     <div className="flex space-x-4">
@@ -51,6 +54,7 @@ export const Default = (): React.ReactNode => {
           value={value2}
           onChange={setValue2}
           placeholder="Select one of the options"
+          options={[]}
           // componentExtraProps={{
           //   icon: {
           //     className: 'w-5 h-5 text-red-500',
@@ -75,6 +79,78 @@ export const Default = (): React.ReactNode => {
           triggerComponentExtraProps={{ isEditing: true }}
         />
       </div> */}
+      <Select.Root value={value3} onValueChange={setValue3}>
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Icon />
+        </Select.Trigger>
+
+        <Select.Content className="p-2 bg-red-400" asChild>
+          <ContentComponent>
+            <Select.ScrollUpButton />
+            <Select.Viewport className="p-4 bg-green-200">
+              <Select.Item value="item-1">
+                <Select.ItemText>Item 1 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-2">
+                <Select.ItemText>Item 2 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-3">
+                <Select.ItemText>Item 3 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-4">
+                <Select.ItemText>Item 4 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-5">
+                <Select.ItemText>Item 5 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-6">
+                <Select.ItemText>Item 6 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-7">
+                <Select.ItemText>Item 7 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-8">
+                <Select.ItemText>Item 8 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-9">
+                <Select.ItemText>Item 9 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-10">
+                <Select.ItemText>Item 10 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-11">
+                <Select.ItemText>Item 11 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Item value="item-12">
+                <Select.ItemText>Item 12 text</Select.ItemText>
+                <Select.ItemIndicator />
+              </Select.Item>
+              <Select.Group>
+                <Select.Label>Group 1</Select.Label>
+                <Select.Item value="item-13">
+                  <Select.ItemText>Item 13 text</Select.ItemText>
+                  <Select.ItemIndicator />
+                </Select.Item>
+              </Select.Group>
+
+              <Select.Separator />
+            </Select.Viewport>
+            <Select.ScrollDownButton />
+          </ContentComponent>
+        </Select.Content>
+      </Select.Root>
     </div>
   );
 };
