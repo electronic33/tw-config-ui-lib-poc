@@ -26,12 +26,13 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc"
+    "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc.js"
   },
   "peerDependencies": {
     "react": ">=17.0.0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^0.1.2"
+    "@radix-ui/react-slot": "^0.1.2",
+    "clsx": "~1.1.1"
   }
 }

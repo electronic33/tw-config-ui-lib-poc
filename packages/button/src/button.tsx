@@ -14,6 +14,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         {...buttonHtmlElementProps}
+        type="button"
         className={clsx('button', className)}
         style={style}
         disabled={disabled}

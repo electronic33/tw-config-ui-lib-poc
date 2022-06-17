@@ -1,5 +1,5 @@
 {
-  "name": "@ags-ui-library-poc/text-input",
+  "name": "@ags-ui-library-poc/dialog",
   "author": "Matyas Furtos",
   "license": "MIT",
   "sideEffects": false,
@@ -29,6 +29,7 @@
     "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc.js"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^0.1.7",
     "clsx": "~1.1.1"
   },
   "peerDependencies": {
