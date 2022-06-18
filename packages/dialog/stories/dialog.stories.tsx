@@ -1,5 +1,4 @@
 import React, { AriaAttributes, CSSProperties } from 'react';
-import { Dialog as RadixDialog } from '../src';
 import * as Dialog from '@radix-ui/react-dialog';
 import { DialogPropsShowcase } from './dialog-props-showcase';
 
@@ -106,13 +105,13 @@ const DescriptionComponent = (props: DescriptionComponentProps) => {
   return <h5 {...props}></h5>;
 };
 
+export const Showcase = (): React.ReactNode => {
+  return <DialogPropsShowcase />;
+};
+
 export const Default = (): React.ReactNode => {
   return (
     <div className="flex space-x-4">
-      <DialogPropsShowcase />
-      {/* <div className="flex flex-col space-y-4 items-start">
-        <RadixDialog>Any</RadixDialog>
-      </div> */}
       <div className="flex flex-col space-y-4 items-start">
         <Dialog.Root open={false}>
           <Dialog.Trigger asChild>
