@@ -102,12 +102,6 @@ importers:
       turbo: 1.2.16
       typescript: 4.7.3
 
-  packages/__TEMPLATE__:
-    specifiers:
-      clsx: ~1.1.1
-    dependencies:
-      clsx: 1.1.1
-
   packages/button:
     specifiers:
       clsx: ~1.1.1
