@@ -4,5 +4,6 @@
 @import '../packages/button/index.css';
 @import '../packages/select/index.css';
 @import '../packages/text-input/index.css';
+@import '../packages/dialog/index.css';
 
 @import "tailwindcss/utilities";

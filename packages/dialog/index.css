@@ -16,6 +16,8 @@
     flex-direction: column;
     background-color: white;
     border-radius: 6px;
+    max-width: 500px;
+    position: relative;
     padding: theme('spacing.4');
   }
 
@@ -26,12 +28,16 @@
   }
 
   .dialog-description {
-    font-size: theme('fontSize.xl');
     color: theme('colors.gray.600');
     margin-bottom: theme('spacing.4');
   }
 
   .dialog-close {
-
+    color: theme('colors.gray.900');
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: theme('spacing.4');
+    right: theme('spacing.4');
   }
 }
