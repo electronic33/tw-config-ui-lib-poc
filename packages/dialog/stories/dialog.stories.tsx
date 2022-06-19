@@ -1,5 +1,5 @@
 import React, { AriaAttributes, CSSProperties } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
+import * as Dialog from '../src';
 import { DialogPropsShowcase } from './dialog-props-showcase';
 
 export default {
@@ -100,7 +100,7 @@ type DescriptionComponentProps = Partial<
 >;
 
 const DescriptionComponent = (props: DescriptionComponentProps) => {
-  console.log({ props });
+  // console.log({ props });
 
   return <h5 {...props}></h5>;
 };
