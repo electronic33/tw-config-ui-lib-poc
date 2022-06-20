@@ -29,7 +29,8 @@
     "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc.js"
   },
   "dependencies": {
-    "clsx": "~1.1.1"
+    "clsx": "~1.1.1",
+    "@ags-ui-library-poc/dialog": "1.0.0"
   },
   "peerDependencies": {
     "react": ">=17.0.0"

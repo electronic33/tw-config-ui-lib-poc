@@ -2,7 +2,6 @@ import React, { AriaAttributes, CSSProperties, useState } from 'react';
 import * as Dialog from '../src';
 import { RadixDialog } from '../src';
 import { DialogPropsShowcase } from './dialog-props-showcase';
-import { Button } from '@ags-ui-library-poc/button';
 
 export default {
   title: 'Dialog',
@@ -123,7 +122,7 @@ export const Legit = (): React.ReactNode => {
         onOpenChange={setIsOpen}
         trigger={
           <Dialog.Trigger asChild>
-            <Button className="button-size-md button-color-primary-filled">Haha</Button>
+            <button className="button button-size-md button-color-primary-filled">Haha</button>
           </Dialog.Trigger>
         }
       >
@@ -133,7 +132,7 @@ export const Legit = (): React.ReactNode => {
           irreversible.
         </Dialog.Description>
         <Dialog.Close asChild>
-          <Button className="button-size-md button-color-primary-filled">Close</Button>
+          <button className="button button-size-md button-color-primary-filled">Close</button>
         </Dialog.Close>
         <Dialog.Close className="dialog-close">
           <svg
