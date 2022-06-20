@@ -1,6 +1,8 @@
 import React, { AriaAttributes, CSSProperties, useState } from 'react';
 import * as Dialog from '../src';
+import { RadixDialog } from '../src';
 import { DialogPropsShowcase } from './dialog-props-showcase';
+import { Button } from '@ags-ui-library-poc/button';
 
 export default {
   title: 'Dialog',
@@ -112,15 +114,48 @@ export const Legit = (): React.ReactNode => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-start">
       <button className="mb-6 focus:ring-4 ring-blue-600" onClick={() => setIsOpen(true)}>
         Another trigger
       </button>
-      <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-        {/* <Dialog.Trigger>Trigger</Dialog.Trigger> */}
+      <RadixDialog
+        isOpen={isOpen}
+        onOpenChange={setIsOpen}
+        trigger={
+          <Dialog.Trigger asChild>
+            <Button className="button-size-md button-color-primary-filled">Haha</Button>
+          </Dialog.Trigger>
+        }
+      >
+        <Dialog.Title className="dialog-title">Confirmation required</Dialog.Title>
+        <Dialog.Description className="dialog-description">
+          You are about to delete item with name <b>Black Vinyl Coat</b>. This action is
+          irreversible.
+        </Dialog.Description>
+        <Dialog.Close asChild>
+          <Button className="button-size-md button-color-primary-filled">Close</Button>
+        </Dialog.Close>
+        <Dialog.Close className="dialog-close">
+          <svg
+            stroke="currentColor"
+            fill="currentColor"
+            strokeWidth="0"
+            viewBox="0 0 512 512"
+            height="100%"
+            width="100%"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M278.6 256l68.2-68.2c6.2-6.2 6.2-16.4 0-22.6-6.2-6.2-16.4-6.2-22.6 0L256 233.4l-68.2-68.2c-6.2-6.2-16.4-6.2-22.6 0-3.1 3.1-4.7 7.2-4.7 11.3 0 4.1 1.6 8.2 4.7 11.3l68.2 68.2-68.2 68.2c-3.1 3.1-4.7 7.2-4.7 11.3 0 4.1 1.6 8.2 4.7 11.3 6.2 6.2 16.4 6.2 22.6 0l68.2-68.2 68.2 68.2c6.2 6.2 16.4 6.2 22.6 0 6.2-6.2 6.2-16.4 0-22.6L278.6 256z" />
+          </svg>
+        </Dialog.Close>
+      </RadixDialog>
+      {/* <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog.Trigger asChild>
+          <Button className="button-size-md button-color-primary-filled">Default trigger</Button>
+        </Dialog.Trigger>
         <Dialog.Portal>
-          <Dialog.Overlay className="dialog-overlay">
-            <Dialog.Content className="dialog-content">
+          <Dialog.Overlay>
+            <Dialog.Content>
               <Dialog.Title className="dialog-title">Confirmation required</Dialog.Title>
               <Dialog.Description className="dialog-description">
                 You are about to delete item with name <b>Black Vinyl Coat</b>. This action is
@@ -142,7 +177,7 @@ export const Legit = (): React.ReactNode => {
             </Dialog.Content>
           </Dialog.Overlay>
         </Dialog.Portal>
-      </Dialog.Root>
+      </Dialog.Root> */}
     </div>
   );
 };

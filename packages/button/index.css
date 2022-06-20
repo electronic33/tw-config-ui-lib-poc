@@ -86,7 +86,7 @@
 
     @apply focus-visible:ring-2;
     &:focus-visible {
-      --tw-ring-opacity: 1;    
+      --tw-ring-opacity: 1;
       --tw-ring-color: theme('components.button.colors.primary.filled.backgroundColor' / 75%);
       --tw-ring-offset-width: 2px;
     }

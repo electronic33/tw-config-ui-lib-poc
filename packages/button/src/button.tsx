@@ -7,18 +7,20 @@ export type ButtonProps = {
   children: React.ReactNode;
   disabled?: boolean;
   style?: React.CSSProperties;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, buttonHtmlElementProps, disabled, className, style }, ref) => {
+  ({ children, disabled, className, style, onClick, ...props }, ref) => {
     return (
       <button
-        {...buttonHtmlElementProps}
         type="button"
         className={clsx('button', className)}
+        {...props}
         style={style}
         disabled={disabled}
         ref={ref}
+        onClick={onClick}
       >
         {children}
       </button>

@@ -110,6 +110,7 @@ importers:
 
   packages/dialog:
     specifiers:
+      '@ags-ui-library-poc/button': 1.0.0
       '@ags-ui-library-poc/utils': 1.0.0
       '@radix-ui/react-dialog': ~0.1.7
       clsx: ~1.1.1
@@ -117,6 +118,8 @@ importers:
       '@ags-ui-library-poc/utils': link:../utils
       '@radix-ui/react-dialog': 0.1.7
       clsx: 1.1.1
+    devDependencies:
+      '@ags-ui-library-poc/button': link:../button
 
   packages/select:
     specifiers:
