@@ -1,13 +1,14 @@
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { FaAirbnb } from 'react-icons/fa';
-import { Button } from '../src';
+import { Button, ConfirmationButton } from '../src';
 
 export default {
   title: 'Button',
   component: Button,
-};
+} as ComponentMeta<typeof Button>;
 
-export const Default = (): React.ReactNode => {
+export const Default: ComponentStory<typeof Button> = () => {
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
@@ -54,6 +55,16 @@ export const Default = (): React.ReactNode => {
         <Button className="button-size-md button-color-neutral-outlined">Button MD</Button>
         <Button className="button-size-lg button-color-neutral-outlined">Button LG</Button>
         <Button className="button-size-xl button-color-neutral-outlined">Button XL</Button>
+      </div>
+    </div>
+  );
+};
+
+export const Confirmation: ComponentStory<typeof ConfirmationButton> = () => {
+  return (
+    <div className="flex space-x-4">
+      <div className="flex flex-col space-y-4 items-start">
+        <ConfirmationButton>Detele</ConfirmationButton>
       </div>
     </div>
   );

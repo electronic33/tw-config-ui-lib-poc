@@ -105,9 +105,11 @@ importers:
   packages/button:
     specifiers:
       '@ags-ui-library-poc/dialog': 1.0.0
+      '@ags-ui-library-poc/loading-indicator': 1.0.0
       clsx: ~1.1.1
     dependencies:
       '@ags-ui-library-poc/dialog': link:../dialog
+      '@ags-ui-library-poc/loading-indicator': link:../loading-indicator
       clsx: 1.1.1
 
   packages/dialog:
@@ -118,6 +120,12 @@ importers:
     dependencies:
       '@ags-ui-library-poc/utils': link:../utils
       '@radix-ui/react-dialog': 0.1.7
+      clsx: 1.1.1
+
+  packages/loading-indicator:
+    specifiers:
+      clsx: ~1.1.1
+    dependencies:
       clsx: 1.1.1
 
   packages/select:

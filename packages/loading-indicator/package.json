@@ -1,5 +1,5 @@
 {
-  "name": "@ags-ui-library-poc/button",
+  "name": "@ags-ui-library-poc/loading-indicator",
   "author": "Matyas Furtos",
   "license": "MIT",
   "sideEffects": false,
@@ -29,9 +29,7 @@
     "lint": "eslint src --ext .ts,.tsx --config ../../.eslintrc.js"
   },
   "dependencies": {
-    "clsx": "~1.1.1",
-    "@ags-ui-library-poc/dialog": "1.0.0",
-    "@ags-ui-library-poc/loading-indicator": "1.0.0"
+    "clsx": "~1.1.1"
   },
   "peerDependencies": {
     "react": ">=17.0.0"

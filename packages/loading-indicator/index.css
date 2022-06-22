@@ -1,0 +1,11 @@
+@layer components {
+  .loading-indicator-size-md {
+    width: 20px;
+    height: 20px;
+  }
+
+  .loading-indicator-size-lg {
+    width: 30px;
+    height: 30px;
+  }
+}
