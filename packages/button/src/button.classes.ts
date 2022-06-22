@@ -1,0 +1,16 @@
+export const buttonClasses = {
+  base: 'button',
+  sizeXs: 'button-size-xs',
+  sizeSm: 'button-size-sm',
+  sizeMd: 'button-size-md',
+  sizeLg: 'button-size-lg',
+  sizeXl: 'button-size-xl',
+  leftIconMd: 'button-icon-left-md',
+  leftIconMdOffsetToCenter: 'button-icon-left-md-offset-to-center',
+  rightIconMd: 'button-icon-right-md',
+  rightIconMdOffsetToCenter: 'button-icon-right-md-offset-to-center',
+  colorPrimaryFilled: 'button-color-primary-filled',
+  colorPrimaryOutlined: 'button-color-primary-outlined',
+  colorNeutralFilled: 'button-color-neutral-filled',
+  colorNeutralOutlined: 'button-color-neutral-outlined',
+};

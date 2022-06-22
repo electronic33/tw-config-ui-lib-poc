@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { RadixDialog, Trigger, Title, Description, Close } from '@ags-ui-library-poc/dialog';
 import { Spinner } from '@ags-ui-library-poc/loading-indicator';
+import { buttonClasses } from './button.classes';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode | React.ReactNode[];
@@ -24,13 +25,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
-
     const LoadingIndicator = LoadingIndicatorElement || (
       <Spinner
         className={clsx({
-          'button-icon-left-md': loadingIndicatorPosition === 'left',
-          'button-icon-right-md': loadingIndicatorPosition === 'right',
+          [buttonClasses.leftIconMd]: loadingIndicatorPosition === 'left',
+          [buttonClasses.rightIconMd]: loadingIndicatorPosition === 'right',
         })}
       />
     );
@@ -39,7 +38,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         disabled={isDisabled || isLoading}
         {...buttonHtmlProps}
-        className={clsx('button', className)}
+        className={clsx(buttonClasses.base, className)}
         ref={ref}
       >
         {isLoading && loadingIndicatorPosition === 'left' && LoadingIndicator}
@@ -50,7 +49,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export type ConfirmationButtonProps = Omit<ButtonProps, 'onClick' | 'onKeyDown'> & {
+export type ConfirmationButtonProps = ButtonProps & {
   isActive?: boolean;
 };
 
@@ -63,14 +62,7 @@ export const ConfirmationButton = ({ isActive, children, ...props }: Confirmatio
       onOpenChange={setIsConfirmationDialogOpen}
       trigger={
         <Trigger asChild>
-          <Button
-            {...props}
-            onClick={() => {
-              console.log('I GET CLICKED');
-            }}
-          >
-            {children}
-          </Button>
+          <Button {...props}>{children}</Button>
         </Trigger>
       }
     >

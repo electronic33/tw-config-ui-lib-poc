@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import clsx from 'clsx';
 import React from 'react';
 import { FaAirbnb } from 'react-icons/fa';
-import { Button, ConfirmationButton } from '../src';
+import { Button, buttonClasses, ConfirmationButton } from '../src';
 
 export default {
   title: 'Button',
@@ -64,7 +65,11 @@ export const Confirmation: ComponentStory<typeof ConfirmationButton> = () => {
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
-        <ConfirmationButton>Detele</ConfirmationButton>
+        <ConfirmationButton
+          className={clsx(buttonClasses.colorPrimaryFilled, buttonClasses.sizeMd)}
+        >
+          Delete
+        </ConfirmationButton>
       </div>
     </div>
   );
