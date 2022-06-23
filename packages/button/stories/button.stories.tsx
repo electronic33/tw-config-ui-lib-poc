@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import clsx from 'clsx';
 import React from 'react';
 import { FaAirbnb } from 'react-icons/fa';
-import { Button, buttonClasses, ConfirmationButton } from '../src';
+import { Button, buttonClasses, ButtonWithConfirmation } from '../src';
 
 export default {
   title: 'Button',
@@ -61,15 +61,22 @@ export const Default: ComponentStory<typeof Button> = () => {
   );
 };
 
-export const Confirmation: ComponentStory<typeof ConfirmationButton> = () => {
+export const Confirmation: ComponentStory<typeof ButtonWithConfirmation> = () => {
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
-        <ConfirmationButton
+        <ButtonWithConfirmation
+          confirmationDialogTitle="Confirmation required"
+          confirmationDialogDescription={
+            <>
+              Deleting user with email <b>email@gmail.test</b> is an irreverisble action. You will
+              not be able to restore it.
+            </>
+          }
           className={clsx(buttonClasses.colorPrimaryFilled, buttonClasses.sizeMd)}
         >
           Delete
-        </ConfirmationButton>
+        </ButtonWithConfirmation>
       </div>
     </div>
   );

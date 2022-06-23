@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
+import { dialogClasses } from './dialog.classes';
 
 export * from '@radix-ui/react-dialog';
 
@@ -16,8 +17,8 @@ export const RadixDialog = ({ children, isOpen, onOpenChange, trigger }: DialogP
     <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
       {trigger}
       <Dialog.Portal>
-        <Dialog.Overlay className={clsx('dialog-overlay')}>
-          <Dialog.Content className={clsx('dialog-content')}>{children}</Dialog.Content>
+        <Dialog.Overlay className={clsx(dialogClasses.overlay)}>
+          <Dialog.Content className={clsx(dialogClasses.content)}>{children}</Dialog.Content>
         </Dialog.Overlay>
       </Dialog.Portal>
     </Dialog.Root>

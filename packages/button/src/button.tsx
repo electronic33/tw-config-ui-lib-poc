@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { RadixDialog, Trigger, Title, Description, Close } from '@ags-ui-library-poc/dialog';
+import { RadixDialog, Trigger } from '@ags-ui-library-poc/dialog';
 import { Spinner } from '@ags-ui-library-poc/loading-indicator';
 import { buttonClasses } from './button.classes';
+import { DefaultConfirmationDialogContent } from './components/default-confirmation-dialog-content';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode | React.ReactNode[];
@@ -49,12 +50,29 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export type ConfirmationButtonProps = ButtonProps & {
-  isActive?: boolean;
+export type ButtonWithConfirmationProps = ButtonProps & {
+  confirmationIsNotNeeded?: boolean;
+  confirmationDialogTitle?: React.ReactNode;
+  confirmationDialogDescription?: React.ReactNode;
+  confirmationButtonText?: React.ReactNode;
+  closeButtonText?: React.ReactNode;
+  ConfirmationDialogComponent?: React.FunctionComponent;
 };
 
-export const ConfirmationButton = ({ isActive, children, ...props }: ConfirmationButtonProps) => {
+export const ButtonWithConfirmation = ({
+  confirmationIsNotNeeded,
+  children,
+  confirmationDialogTitle,
+  confirmationDialogDescription,
+  confirmationButtonText,
+  closeButtonText,
+  ...props
+}: ButtonWithConfirmationProps) => {
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
+
+  if (confirmationIsNotNeeded) {
+    return <Button {...props}>{children}</Button>;
+  }
 
   return (
     <RadixDialog
@@ -66,14 +84,12 @@ export const ConfirmationButton = ({ isActive, children, ...props }: Confirmatio
         </Trigger>
       }
     >
-      <Title>Are you sure?</Title>
-      <Description>By deleting this you will...</Description>
-      <div className="flex">
-        <Close asChild>
-          <Button>Close</Button>
-        </Close>
-        <Button>Proceed</Button>
-      </div>
+      <DefaultConfirmationDialogContent
+        dialogTitle={confirmationDialogTitle}
+        dialogDescription={confirmationDialogDescription}
+        confirmButtonChild={confirmationButtonText}
+        closeButtonChild={closeButtonText}
+      />
     </RadixDialog>
   );
 };
