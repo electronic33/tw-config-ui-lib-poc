@@ -61,18 +61,35 @@ export const Default: ComponentStory<typeof Button> = () => {
   );
 };
 
+type TestProps = {
+  key1: string;
+  key2: number;
+};
+
+const Test = (props: TestProps) => <div>asd</div>;
+
 export const Confirmation: ComponentStory<typeof ButtonWithConfirmation> = () => {
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
         <ButtonWithConfirmation
-          confirmationDialogTitle="Confirmation required"
-          confirmationDialogDescription={
-            <>
-              Deleting user with email <b>email@gmail.test</b> is an irreverisble action. You will
-              not be able to restore it.
-            </>
-          }
+          // TODO: have this complain if Test has any required props
+
+          // confirmationDialogProps={{
+          //   // dialogTitle: 'Confirmation required',
+          //   // dialogDescription: (
+          //   //   <>
+          //   //     Deleting user with email <b>email@gmail.test</b> is an irreverisble action. You will
+          //   //     not be able to restore it.
+          //   //   </>
+          //   // ),
+          //   key1: '1',
+          // }}
+          // ConfirmationDialogComponent={Test}
+          // confirmationDialogProps={{
+          //   dialogTitle: 'asd',
+          // }}
+          ConfirmationDialogComponent={Test}
           className={clsx(buttonClasses.colorPrimaryFilled, buttonClasses.sizeMd)}
         >
           Delete

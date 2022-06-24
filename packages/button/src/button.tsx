@@ -3,7 +3,10 @@ import clsx from 'clsx';
 import { RadixDialog, Trigger } from '@ags-ui-library-poc/dialog';
 import { Spinner } from '@ags-ui-library-poc/loading-indicator';
 import { buttonClasses } from './button.classes';
-import { DefaultConfirmationDialogContent } from './components/default-confirmation-dialog-content';
+import {
+  DefaultConfirmationDialogContent,
+  DefaultConfirmationDialogProps,
+} from './components/default-confirmation-dialog-content';
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode | React.ReactNode[];
@@ -50,24 +53,34 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-export type ButtonWithConfirmationProps = ButtonProps & {
-  confirmationIsNotNeeded?: boolean;
-  confirmationDialogTitle?: React.ReactNode;
-  confirmationDialogDescription?: React.ReactNode;
-  confirmationButtonText?: React.ReactNode;
-  closeButtonText?: React.ReactNode;
-  ConfirmationDialogComponent?: React.FunctionComponent;
-};
+type ConfirmationDialogSlot<T> = T extends React.FunctionComponent<infer P>
+  ? {
+      ConfirmationDialogComponent: T;
+      confirmationDialogProps?: P;
+    }
+  : {
+      ConfirmationDialogComponent?: typeof DefaultConfirmationDialogContent;
+      confirmationDialogProps: DefaultConfirmationDialogProps;
+    };
 
-export const ButtonWithConfirmation = ({
+export type ButtonWithConfirmationProps<ConfirmationDialogComponent> = ButtonProps & {
+  confirmationIsNotNeeded?: boolean;
+} & ConfirmationDialogSlot<ConfirmationDialogComponent>;
+
+type AssertCorretProps<Component, OtherProps> =
+  Component extends typeof DefaultConfirmationDialogContent
+    ? DefaultConfirmationDialogProps & React.ComponentProps<Component>
+    : OtherProps;
+
+export const ButtonWithConfirmation = <
+  T extends React.JSXElementConstructor<any> | keyof JSX.IntrinsicElements,
+>({
+  ConfirmationDialogComponent = DefaultConfirmationDialogContent,
+  confirmationDialogProps,
   confirmationIsNotNeeded,
   children,
-  confirmationDialogTitle,
-  confirmationDialogDescription,
-  confirmationButtonText,
-  closeButtonText,
   ...props
-}: ButtonWithConfirmationProps) => {
+}: ButtonWithConfirmationProps<T>) => {
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
 
   if (confirmationIsNotNeeded) {
@@ -84,11 +97,11 @@ export const ButtonWithConfirmation = ({
         </Trigger>
       }
     >
-      <DefaultConfirmationDialogContent
-        dialogTitle={confirmationDialogTitle}
-        dialogDescription={confirmationDialogDescription}
-        confirmButtonChild={confirmationButtonText}
-        closeButtonChild={closeButtonText}
+      <ConfirmationDialogComponent
+        {...(confirmationDialogProps as AssertCorretProps<
+          typeof ConfirmationDialogComponent,
+          React.ComponentProps<T>
+        >)}
       />
     </RadixDialog>
   );
