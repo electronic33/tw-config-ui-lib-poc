@@ -13,49 +13,89 @@ export const Default: ComponentStory<typeof Button> = () => {
   return (
     <div className="flex space-x-4">
       <div className="flex flex-col space-y-4 items-start">
-        <Button className="button-size-xs button-color-primary-filled">Button XS</Button>
-        <Button className="button-size-sm button-color-primary-filled">Button SM</Button>
-        <Button className="button-size-md button-color-primary-filled">
-          <FaAirbnb className="button-icon-left-md" />
+        <Button className={clsx(buttonClasses.sizeXs, buttonClasses.colorPrimaryFilled)}>
+          Button XS
+        </Button>
+        <Button className={clsx(buttonClasses.sizeSm, buttonClasses.colorPrimaryFilled)}>
+          Button SM
+        </Button>
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorPrimaryFilled)}>
+          <FaAirbnb className={clsx(buttonClasses.leftIconMd)} />
           Button MD
         </Button>
-        <Button className="button-size-md button-color-primary-filled w-56">
-          <FaAirbnb className="button-icon-left-md button-icon-left-md-offset-to-center" />
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorPrimaryFilled, 'w-56')}>
+          <FaAirbnb
+            className={clsx(buttonClasses.leftIconMd, buttonClasses.leftIconMdOffsetToCenter)}
+          />
           Button MD
         </Button>
-        <Button className="button-size-md button-color-primary-filled">
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorPrimaryFilled)}>
           Button MD
-          <FaAirbnb className="button-icon-right-md" />
+          <FaAirbnb className={clsx(buttonClasses.rightIconMd)} />
         </Button>
-        <Button className="button-size-md button-color-primary-filled w-56">
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorPrimaryFilled, 'w-56')}>
           Button MD
-          <FaAirbnb className="button-icon-right-md button-icon-right-md-offset-to-center" />
+          <FaAirbnb
+            className={clsx(buttonClasses.rightIconMd, buttonClasses.rightIconMdOffsetToCenter)}
+          />
         </Button>
-        <Button className="button-size-lg button-color-primary-filled" disabled>
+        <Button className={clsx(buttonClasses.sizeLg, buttonClasses.colorPrimaryFilled)} disabled>
           Button LG
         </Button>
-        <Button className="button-size-xl button-color-primary-filled">Button XL</Button>
+        <Button className={clsx(buttonClasses.sizeXl, buttonClasses.colorPrimaryFilled)}>
+          Button XL
+        </Button>
       </div>
       <div className="flex flex-col space-y-4 items-start">
-        <Button className="button-size-xs button-color-primary-outlined">Button XS</Button>
-        <Button className="button-size-sm button-color-primary-outlined">Button SM</Button>
-        <Button className="button-size-md button-color-primary-outlined">Button MD</Button>
-        <Button className="button-size-lg button-color-primary-outlined">Button LG</Button>
-        <Button className="button-size-xl button-color-primary-outlined">Button XL</Button>
+        <Button className={clsx(buttonClasses.sizeXs, buttonClasses.colorPrimaryOutlined)}>
+          Button XS
+        </Button>
+        <Button className={clsx(buttonClasses.sizeSm, buttonClasses.colorPrimaryOutlined)}>
+          Button SM
+        </Button>
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorPrimaryOutlined)}>
+          Button MD
+        </Button>
+        <Button className={clsx(buttonClasses.sizeLg, buttonClasses.colorPrimaryOutlined)}>
+          Button LG
+        </Button>
+        <Button className={clsx(buttonClasses.sizeXl, buttonClasses.colorPrimaryOutlined)}>
+          Button XL
+        </Button>
       </div>
       <div className="flex flex-col space-y-4 items-start">
-        <Button className="button-size-xs button-color-neutral-filled">Button XS</Button>
-        <Button className="button-size-sm button-color-neutral-filled">Button SM</Button>
-        <Button className="button-size-md button-color-neutral-filled">Button MD</Button>
-        <Button className="button-size-lg button-color-neutral-filled">Button LG</Button>
-        <Button className="button-size-xl button-color-neutral-filled">Button XL</Button>
+        <Button className={clsx(buttonClasses.sizeXs, buttonClasses.colorNeutralFilled)}>
+          Button XS
+        </Button>
+        <Button className={clsx(buttonClasses.sizeSm, buttonClasses.colorNeutralFilled)}>
+          Button SM
+        </Button>
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorNeutralFilled)}>
+          Button MD
+        </Button>
+        <Button className={clsx(buttonClasses.sizeLg, buttonClasses.colorNeutralFilled)}>
+          Button LG
+        </Button>
+        <Button className={clsx(buttonClasses.sizeXl, buttonClasses.colorNeutralFilled)}>
+          Button XL
+        </Button>
       </div>
       <div className="flex flex-col space-y-4 items-start">
-        <Button className="button-size-xs button-color-neutral-outlined">Button XS</Button>
-        <Button className="button-size-sm button-color-neutral-outlined">Button SM</Button>
-        <Button className="button-size-md button-color-neutral-outlined">Button MD</Button>
-        <Button className="button-size-lg button-color-neutral-outlined">Button LG</Button>
-        <Button className="button-size-xl button-color-neutral-outlined">Button XL</Button>
+        <Button className={clsx(buttonClasses.sizeXs, buttonClasses.colorNeutralOutlined)}>
+          Button XS
+        </Button>
+        <Button className={clsx(buttonClasses.sizeSm, buttonClasses.colorNeutralOutlined)}>
+          Button SM
+        </Button>
+        <Button className={clsx(buttonClasses.sizeMd, buttonClasses.colorNeutralOutlined)}>
+          Button MD
+        </Button>
+        <Button className={clsx(buttonClasses.sizeLg, buttonClasses.colorNeutralOutlined)}>
+          Button LG
+        </Button>
+        <Button className={clsx(buttonClasses.sizeXl, buttonClasses.colorNeutralOutlined)}>
+          Button XL
+        </Button>
       </div>
     </div>
   );

@@ -115,10 +115,12 @@ importers:
   packages/dialog:
     specifiers:
       '@ags-ui-library-poc/utils': 1.0.0
+      '@radix-ui/react-alert-dialog': ^0.1.7
       '@radix-ui/react-dialog': ~0.1.7
       clsx: ~1.1.1
     dependencies:
       '@ags-ui-library-poc/utils': link:../utils
+      '@radix-ui/react-alert-dialog': 0.1.7
       '@radix-ui/react-dialog': 0.1.7
       clsx: 1.1.1
 
@@ -1891,6 +1893,23 @@ packages:
     resolution: {integrity: sha512-tqxZKybwN5Fa3VzZry4G6mXAAb9aAqKmPtnVbZpL0vsBwvOHTBwsjHVPXylocYLwEtBY9SCe665bYnNB515uoA==}
     dependencies:
       '@babel/runtime': 7.18.3
+    dev: false
+
+  /@radix-ui/react-alert-dialog/0.1.7:
+    resolution: {integrity: sha512-b0+TWr0VRWMWM7QcXvvcwbMGNzpTmvPBSBpYcoaD+QnVo3jdJt0k0bghwbYBuywzdyuRNUFf33xwah/57w09QA==}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.18.3
+      '@radix-ui/primitive': 0.1.0
+      '@radix-ui/react-compose-refs': 0.1.0
+      '@radix-ui/react-context': 0.1.1
+      '@radix-ui/react-dialog': 0.1.7
+      '@radix-ui/react-primitive': 0.1.4
+      '@radix-ui/react-slot': 0.1.2
+    transitivePeerDependencies:
+      - '@types/react'
     dev: false
 
   /@radix-ui/react-collection/0.1.4:
