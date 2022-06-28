@@ -9,39 +9,39 @@
   }
 
   .button-size-xs {
-    padding-left: theme('components.button.sizes.xs.px');
-    padding-right: theme('components.button.sizes.xs.px');
-    height: theme('components.button.sizes.xs.height');
-    font-size: theme('components.button.sizes.xs.fontSize');
-    border-radius: theme('components.button.sizes.xs.borderRadius');
-    box-shadow: theme('components.button.sizes.xs.shadow');
+    padding-left: theme("components.button.sizes.xs.px");
+    padding-right: theme("components.button.sizes.xs.px");
+    height: theme("components.button.sizes.xs.height");
+    font-size: theme("components.button.sizes.xs.fontSize");
+    border-radius: theme("components.button.sizes.xs.borderRadius");
+    box-shadow: theme("components.button.sizes.xs.shadow");
   }
 
   .button-size-sm {
-    padding-left: theme('components.button.sizes.sm.px');
-    padding-right: theme('components.button.sizes.sm.px');
-    height: theme('components.button.sizes.sm.height');
-    font-size: theme('components.button.sizes.sm.fontSize');
-    border-radius: theme('components.button.sizes.sm.borderRadius');
-    box-shadow: theme('components.button.sizes.sm.shadow');
+    padding-left: theme("components.button.sizes.sm.px");
+    padding-right: theme("components.button.sizes.sm.px");
+    height: theme("components.button.sizes.sm.height");
+    font-size: theme("components.button.sizes.sm.fontSize");
+    border-radius: theme("components.button.sizes.sm.borderRadius");
+    box-shadow: theme("components.button.sizes.sm.shadow");
   }
-  
+
   .button-size-md {
-    padding-left: theme('components.button.sizes.md.px');
-    padding-right: theme('components.button.sizes.md.px');
-    height: theme('components.button.sizes.md.height');
-    font-size: theme('components.button.sizes.md.fontSize');
-    border-radius: theme('components.button.sizes.md.borderRadius');
-    box-shadow: theme('components.button.sizes.md.shadow');
+    padding-left: theme("components.button.sizes.md.px");
+    padding-right: theme("components.button.sizes.md.px");
+    height: theme("components.button.sizes.md.height");
+    font-size: theme("components.button.sizes.md.fontSize");
+    border-radius: theme("components.button.sizes.md.borderRadius");
+    box-shadow: theme("components.button.sizes.md.shadow");
   }
-  
+
   .button-size-lg {
-    padding-left: theme('components.button.sizes.lg.px');
-    padding-right: theme('components.button.sizes.lg.px');
-    height: theme('components.button.sizes.lg.height');
-    font-size: theme('components.button.sizes.lg.fontSize');
-    border-radius: theme('components.button.sizes.lg.borderRadius');
-    box-shadow: theme('components.button.sizes.lg.shadow');
+    padding-left: theme("components.button.sizes.lg.px");
+    padding-right: theme("components.button.sizes.lg.px");
+    height: theme("components.button.sizes.lg.height");
+    font-size: theme("components.button.sizes.lg.fontSize");
+    border-radius: theme("components.button.sizes.lg.borderRadius");
+    box-shadow: theme("components.button.sizes.lg.shadow");
   }
 
   .button-icon-left-md {
@@ -67,67 +67,68 @@
   }
 
   .button-size-xl {
-    padding-left: theme('components.button.sizes.xl.px');
-    padding-right: theme('components.button.sizes.xl.px');
-    height: theme('components.button.sizes.xl.height');
-    font-size: theme('components.button.sizes.xl.fontSize');
-    border-radius: theme('components.button.sizes.xl.borderRadius');
-    box-shadow: theme('components.button.sizes.xl.shadow');
+    padding-left: theme("components.button.sizes.xl.px");
+    padding-right: theme("components.button.sizes.xl.px");
+    height: theme("components.button.sizes.xl.height");
+    font-size: theme("components.button.sizes.xl.fontSize");
+    border-radius: theme("components.button.sizes.xl.borderRadius");
+    box-shadow: theme("components.button.sizes.xl.shadow");
   }
 
   .button-color-primary-filled {
-    background-color: theme('components.button.colors.primary.filled.backgroundColor');
-    color: theme('components.button.colors.primary.filled.textColor');
+    background-color: theme("components.button.colors.primary.filled.backgroundColor");
+    color: theme("components.button.colors.primary.filled.textColor");
 
     &:hover {
-      background-color: theme('components.button.colors.primary.filled.hover.backgroundColor');
-      color: theme('components.button.colors.primary.filled.hover.textColor');
+      background-color: theme("components.button.colors.primary.filled.hover.backgroundColor");
+      color: theme("components.button.colors.primary.filled.hover.textColor");
     }
 
     @apply focus-visible:ring-2;
+
     &:focus-visible {
       --tw-ring-opacity: 1;
-      --tw-ring-color: theme('components.button.colors.primary.filled.backgroundColor' / 75%);
+      --tw-ring-color: theme("components.button.colors.primary.filled.backgroundColor" / 75%);
       --tw-ring-offset-width: 2px;
     }
 
     &:active {
-      background-color: theme('components.button.colors.primary.filled.pressed.backgroundColor');
+      background-color: theme("components.button.colors.primary.filled.pressed.backgroundColor");
     }
 
     &:disabled {
-      background-color: theme('components.button.colors.primary.filled.disabled.backgroundColor');
+      background-color: theme("components.button.colors.primary.filled.disabled.backgroundColor");
       cursor: not-allowed;
     }
   }
 
   .button-color-primary-outlined {
-    background-color: theme('components.button.colors.primary.outlined.backgroundColor');
-    color: theme('components.button.colors.primary.outlined.textColor');
+    background-color: theme("components.button.colors.primary.outlined.backgroundColor");
+    color: theme("components.button.colors.primary.outlined.textColor");
 
     &:hover {
-      background-color: theme('components.button.colors.primary.outlined.hover.backgroundColor');
-      color: theme('components.button.colors.primary.outlined.hover.textColor');
+      background-color: theme("components.button.colors.primary.outlined.hover.backgroundColor");
+      color: theme("components.button.colors.primary.outlined.hover.textColor");
     }
   }
 
   .button-color-netural-filled {
-    background-color: theme('components.button.colors.neutral.filled.backgroundColor');
-    color: theme('components.button.colors.neutral.filled.textColor');
+    background-color: theme("components.button.colors.neutral.filled.backgroundColor");
+    color: theme("components.button.colors.neutral.filled.textColor");
 
     &:hover {
-      background-color: theme('components.button.colors.neutral.filled.hover.backgroundColor');
-      color: theme('components.button.colors.neutral.filled.hover.textColor');
+      background-color: theme("components.button.colors.neutral.filled.hover.backgroundColor");
+      color: theme("components.button.colors.neutral.filled.hover.textColor");
     }
   }
 
   .button-color-neutral-outlined {
-    background-color: theme('components.button.colors.neutral.outlined.backgroundColor');
-    color: theme('components.button.colors.neutral.outlined.textColor');
+    background-color: theme("components.button.colors.neutral.outlined.backgroundColor");
+    color: theme("components.button.colors.neutral.outlined.textColor");
 
     &:hover {
-      background-color: theme('components.button.colors.neutral.filled.hover.backgroundColor');
-      color: theme('components.button.colors.neutral.filled.hover.textColor');
+      background-color: theme("components.button.colors.neutral.filled.hover.backgroundColor");
+      color: theme("components.button.colors.neutral.filled.hover.textColor");
     }
   }
 }

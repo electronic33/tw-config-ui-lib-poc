@@ -4,18 +4,20 @@
     align-items: center;
     justify-content: space-between;
     height: 32px;
-    color: theme('colors.gray.900');
+    color: theme("colors.gray.900");
     border-radius: 4px;
     border-width: 1px;
-    border-color: theme('colors.gray.400');
+    border-color: theme("colors.gray.400");
     padding-left: 8px;
     padding-right: 8px;
-    
+
     @apply focus:ring-2;
+
     &:focus {
       outline: none;
-      --tw-ring-opacity: 1;    
-      --tw-ring-color: theme('components.button.colors.primary.filled.backgroundColor' / 75%);
+
+      --tw-ring-opacity: 1;
+      --tw-ring-color: theme("components.button.colors.primary.filled.backgroundColor" / 75%);
       --tw-ring-offset-width: 2px;
     }
   }
@@ -24,19 +26,19 @@
     padding: 4px;
     background-color: white;
     border-width: 1px;
-    border-color: theme('colors.gray.400');
+    border-color: theme("colors.gray.400");
     border-radius: 6px;
   }
 
   .select-selected-value {
-    color: theme('colors.gray.900');
+    color: theme("colors.gray.900");
     font-weight: semibold;
   }
 
   .select-trigger-icon {
     width: 20px;
     height: 20px;
-    color: theme('colors.gray.400');
+    color: theme("colors.gray.400");
     margin-left: 6px;
   }
 }
